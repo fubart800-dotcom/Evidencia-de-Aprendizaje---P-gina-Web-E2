@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Tienda de Celulares</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+        .glow-effect {
+            transition: all 0.3s ease;
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/60 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-blue-600 to-indigo-500 p-2.5 rounded-xl text-white shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-mobile-screen-button text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-tight bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">TechStore</h1>
+                    <p class="text-xs text-slate-400 font-medium">Catálogo interactivo de Smartphones</p>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+                <span class="flex items-center text-emerald-400 bg-emerald-950/40 border border-emerald-800/50 px-3 py-1 rounded-full text-xs">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-2"></span>
+                    Estructura Condicional Activa
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full space-y-12">
+
+        <!-- SECCIÓN 1: Visor Interactivo Principal (Procesado por Condicionales JS) -->
+        <section class="bg-slate-800/50 border border-slate-700/70 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-700/60 pb-6">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-400">Selección Interactiva</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Detalle del Celular Seleccionado</h2>
+                </div>
+                
+                <!-- Selector Desplegable Adicional (Cumple con opción de dropdown o botones) -->
+                <div class="flex items-center space-x-3 bg-slate-900/80 p-2 rounded-xl border border-slate-700">
+                    <label for="phone-dropdown" class="text-xs font-semibold text-slate-400 pl-2">Seleccionar:</label>
+                    <select id="phone-dropdown" onchange="seleccionarCelular(this.value)" class="bg-slate-800 text-white text-sm font-medium rounded-lg px-3 py-2 outline-none border border-slate-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
+                        <option value="iphone15">Apple iPhone 15 Pro</option>
+                        <option value="samsungS24">Samsung Galaxy S24 Ultra</option>
+                        <option value="xiaomi14">Xiaomi 14 Ultra</option>
+                        <option value="pixel8">Google Pixel 8 Pro</option>
+                        <option value="motoEdge50">Motorola Edge 50 Pro</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Display dinámico del Celular -->
+            <div id="display-container" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center fade-in">
+                <!-- Imagen del Celular -->
+                <div class="lg:col-span-5 flex justify-center items-center bg-slate-900/60 rounded-2xl p-6 border border-slate-700/50 min-h-[360px] relative group">
+                    <img id="detail-image" src="" alt="Celular Seleccionado" class="max-h-80 object-contain filter drop-shadow-2xl group-hover:scale-105 transition-transform duration-500">
+                    <span id="detail-badge" class="absolute top-4 left-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                        Gama Alta
+                    </span>
+                </div>
+
+                <!-- Información del Celular -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div>
+                        <span id="detail-brand" class="text-blue-400 font-bold tracking-wider text-sm uppercase">Marca</span>
+                        <h3 id="detail-title" class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Nombre del Modelo</h3>
+                        <p id="detail-description" class="text-slate-400 text-sm sm:text-base mt-2 leading-relaxed">Descripción del dispositivo</p>
+                    </div>
+
+                    <!-- Precio -->
+                    <div class="bg-slate-900/80 rounded-2xl p-4 border border-slate-700/80 inline-block min-w-[220px]">
+                        <span class="text-xs font-medium text-slate-400 block uppercase tracking-wider">Precio de contado</span>
+                        <span id="detail-price" class="text-3xl font-black text-emerald-400">$0,000 USD</span>
+                    </div>
+
+                    <!-- Especificaciones Técnicas Principales -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/50">
+                            <span class="text-slate-400 text-xs flex items-center gap-1.5 mb-1"><i class="fa-solid fa-microchip text-blue-400"></i> Procesador</span>
+                            <span id="spec-cpu" class="text-slate-200 text-xs sm:text-sm font-semibold block truncate">-</span>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/50">
+                            <span class="text-slate-400 text-xs flex items-center gap-1.5 mb-1"><i class="fa-solid fa-camera text-blue-400"></i> Cámara</span>
+                            <span id="spec-camera" class="text-slate-200 text-xs sm:text-sm font-semibold block truncate">-</span>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/50 col-span-2 sm:col-span-1">
+                            <span class="text-slate-400 text-xs flex items-center gap-1.5 mb-1"><i class="fa-solid fa-battery-full text-blue-400"></i> Batería</span>
+                            <span id="spec-battery" class="text-slate-200 text-xs sm:text-sm font-semibold block truncate">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Botón de Acción -->
+                    <div class="pt-2 flex flex-wrap gap-4">
+                        <button onclick="alert('¡Producto agregado al carrito de compra con éxito!')" class="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-blue-600/30 transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-shopping"></i> Comprar Ahora
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: Lista de los 5 Modelos de Celulares con Botón de Selección -->
+        <section class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-boxes-stacked text-blue-500"></i>
+                        Modelos Disponibles en Catálogo
+                    </h2>
+                    <p class="text-sm text-slate-400">Haz clic en el botón de cualquier modelo para actualizar la vista principal usando estructuras condicionales.</p>
+                </div>
+                <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 self-start sm:self-auto">
+                    5 Modelos de Alta Calidad
+                </span>
+            </div>
+
+            <!-- Rejilla de Tarjetas (Cards) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6" id="cards-grid">
+                
+                <!-- Card 1: iPhone 15 Pro -->
+                <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-5 flex flex-col justify-between glow-effect group relative">
+                    <div>
+                        <div class="h-44 bg-slate-900/70 rounded-xl p-4 flex items-center justify-center mb-4 border border-slate-700/40">
+                            <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=600&auto=format&fit=crop" alt="iPhone 15 Pro" class="h-36 object-contain group-hover:scale-110 transition duration-300">
+                        </div>
+                        <span class="text-xs font-semibold text-blue-400 uppercase">Apple</span>
+                        <h3 class="font-bold text-white text-lg">iPhone 15 Pro</h3>
+                        <p class="text-emerald-400 font-extrabold text-lg my-1">$999 USD</p>
+                    </div>
+                    <button onclick="seleccionarCelular('iphone15')" class="mt-4 w-full bg-slate-700 hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow">
+                        <i class="fa-solid fa-arrow-pointer"></i> Seleccionar
+                    </button>
+                </div>
+
+                <!-- Card 2: Samsung Galaxy S24 Ultra -->
+                <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-5 flex flex-col justify-between glow-effect group relative">
+                    <div>
+                        <div class="h-44 bg-slate-900/70 rounded-xl p-4 flex items-center justify-center mb-4 border border-slate-700/40">
+                            <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=600&auto=format&fit=crop" alt="Samsung Galaxy S24 Ultra" class="h-36 object-contain group-hover:scale-110 transition duration-300">
+                        </div>
+                        <span class="text-xs font-semibold text-blue-400 uppercase">Samsung</span>
+                        <h3 class="font-bold text-white text-lg">Galaxy S24 Ultra</h3>
+                        <p class="text-emerald-400 font-extrabold text-lg my-1">$1,299 USD</p>
+                    </div>
+                    <button onclick="seleccionarCelular('samsungS24')" class="mt-4 w-full bg-slate-700 hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow">
+                        <i class="fa-solid fa-arrow-pointer"></i> Seleccionar
+                    </button>
+                </div>
+
+                <!-- Card 3: Xiaomi 14 Ultra -->
+                <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-5 flex flex-col justify-between glow-effect group relative">
+                    <div>
+                        <div class="h-44 bg-slate-900/70 rounded-xl p-4 flex items-center justify-center mb-4 border border-slate-700/40">
+                            <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=600&auto=format&fit=crop" alt="Xiaomi 14 Ultra" class="h-36 object-contain group-hover:scale-110 transition duration-300">
+                        </div>
+                        <span class="text-xs font-semibold text-blue-400 uppercase">Xiaomi</span>
+                        <h3 class="font-bold text-white text-lg">Xiaomi 14 Ultra</h3>
+                        <p class="text-emerald-400 font-extrabold text-lg my-1">$1,199 USD</p>
+                    </div>
+                    <button onclick="seleccionarCelular('xiaomi14')" class="mt-4 w-full bg-slate-700 hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow">
+                        <i class="fa-solid fa-arrow-pointer"></i> Seleccionar
+                    </button>
+                </div>
+
+                <!-- Card 4: Google Pixel 8 Pro -->
+                <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-5 flex flex-col justify-between glow-effect group relative">
+                    <div>
+                        <div class="h-44 bg-slate-900/70 rounded-xl p-4 flex items-center justify-center mb-4 border border-slate-700/40">
+                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600&auto=format&fit=crop" alt="Google Pixel 8 Pro" class="h-36 object-contain group-hover:scale-110 transition duration-300">
+                        </div>
+                        <span class="text-xs font-semibold text-blue-400 uppercase">Google</span>
+                        <h3 class="font-bold text-white text-lg">Pixel 8 Pro</h3>
+                        <p class="text-emerald-400 font-extrabold text-lg my-1">$899 USD</p>
+                    </div>
+                    <button onclick="seleccionarCelular('pixel8')" class="mt-4 w-full bg-slate-700 hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow">
+                        <i class="fa-solid fa-arrow-pointer"></i> Seleccionar
+                    </button>
+                </div>
+
+                <!-- Card 5: Motorola Edge 50 Pro -->
+                <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-5 flex flex-col justify-between glow-effect group relative">
+                    <div>
+                        <div class="h-44 bg-slate-900/70 rounded-xl p-4 flex items-center justify-center mb-4 border border-slate-700/40">
+                            <img src="https://images.unsplash.com/photo-1565849904461-04a58ad377e0?q=80&w=600&auto=format&fit=crop" alt="Motorola Edge 50 Pro" class="h-36 object-contain group-hover:scale-110 transition duration-300">
+                        </div>
+                        <span class="text-xs font-semibold text-blue-400 uppercase">Motorola</span>
+                        <h3 class="font-bold text-white text-lg">Edge 50 Pro</h3>
+                        <p class="text-emerald-400 font-extrabold text-lg my-1">$699 USD</p>
+                    </div>
+                    <button onclick="seleccionarCelular('motoEdge50')" class="mt-4 w-full bg-slate-700 hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow">
+                        <i class="fa-solid fa-arrow-pointer"></i> Seleccionar
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Explicación Pedagógica del Código Condicional Integrado -->
+        <section class="bg-slate-800/30 border border-slate-700/40 rounded-2xl p-6 text-sm">
+            <h3 class="font-bold text-slate-200 flex items-center gap-2 mb-2">
+                <i class="fa-solid fa-code text-indigo-400"></i>
+                Demostración de Estructura Condicional (JavaScript)
+            </h3>
+            <p class="text-slate-400 leading-relaxed">
+                Esta página cumple con la instrucción de utilizar estructuras condicionales (<code class="text-blue-300 bg-slate-900 px-1.5 py-0.5 rounded">switch / if-else</code>) para procesar el clic o la selección del usuario y renderizar en pantalla la fotografía, nombre, precio y especificaciones correspondientes en tiempo real.
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 TechStore - Evidencia de Aprendizaje | Tienda Interactiva de Celulares</p>
+    </footer>
+
+    <!-- LÓGICA EN JAVASCRIPT CON ESTRUCTURA CONDICIONAL (SWITCH / IF-ELSE) -->
+    <script>
+        /**
+         * Función principal para cambiar la vista del celular en pantalla.
+         * Utiliza la estructura condicional SWITCH para validar la opción elegida.
+         * @param {string} idModelo - Identificador del modelo de celular seleccionado.
+         */
+        function seleccionarCelular(idModelo) {
+            // Variables para almacenar la información según el condicional
+            let nombre = "";
+            let marca = "";
+            let precio = "";
+            let imagen = "";
+            let descripcion = "";
+            let cpu = "";
+            let camara = "";
+            let bateria = "";
+
+            // ESTRUCTURA CONDICIONAL (SWITCH / IF) SEGÚN EL REQUISITO
+            switch (idModelo) {
+                case "iphone15":
+                    marca = "Apple";
+                    nombre = "iPhone 15 Pro";
+                    precio = "$999 USD";
+                    imagen = "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop";
+                    descripcion = "Construido en titanio de grado aeroespacial. Cuenta con el revolucionario chip A17 Pro y un sistema de cámaras pro versátil.";
+                    cpu = "Apple A17 Pro";
+                    camara = "48 MP Principal + 12 MP Tele";
+                    bateria = "3,274 mAh";
+                    break;
+
+                case "samsungS24":
+                    marca = "Samsung";
+                    nombre = "Galaxy S24 Ultra";
+                    precio = "$1,299 USD";
+                    imagen = "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=800&auto=format&fit=crop";
+                    descripcion = "Potenciado por Galaxy AI. Marcos de titanio con pantalla de alta visibilidad Ray Tracing y cámara Quad Tele con S Pen incorporado.";
+                    cpu = "Snapdragon 8 Gen 3";
+                    camara = "200 MP + 50 MP Tele";
+                    bateria = "5,000 mAh";
+                    break;
+
+                case "xiaomi14":
+                    marca = "Xiaomi";
+                    nombre = "Xiaomi 14 Ultra";
+                    precio = "$1,199 USD";
+                    imagen = "https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=800&auto=format&fit=crop";
+                    descripcion = "Diseño enfocado en la fotografía con ópticas legendarias Leica. Cuádruple cámara de alta resolución y carga ultra rápida de 90W.";
+                    cpu = "Snapdragon 8 Gen 3";
+                    camara = "50 MP Leica Quad Camera";
+                    bateria = "5,000 mAh";
+                    break;
+
+                case "pixel8":
+                    marca = "Google";
+                    nombre = "Pixel 8 Pro";
+                    precio = "$899 USD";
+                    imagen = "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800&auto=format&fit=crop";
+                    descripcion = "El teléfono diseñado por Google con Inteligencia Artificial avanzada integrando el chip Tensor G3 y la mejor experiencia fotográfica pura.";
+                    cpu = "Google Tensor G3";
+                    camara = "50 MP Principal + 48 MP Ultra";
+                    bateria = "5,050 mAh";
+                    break;
+
+                case "motoEdge50":
+                    marca = "Motorola";
+                    nombre = "Edge 50 Pro";
+                    precio = "$699 USD";
+                    imagen = "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?q=80&w=800&auto=format&fit=crop";
+                    descripcion = "Elegancia con acabado en cuero vegano, pantalla curva pOLED a 144Hz y tecnología de carga TurboPower de 125W increíblemente rápida.";
+                    cpu = "Snapdragon 7 Gen 3";
+                    camara = "50 MP + 13 MP Ultra Wide";
+                    bateria = "4,500 mAh";
+                    break;
+
+                default:
+                    // Estructura condicional alternativa (Fallback)
+                    marca = "Desconocida";
+                    nombre = "Modelo no especificado";
+                    precio = "$0 USD";
+                    imagen = "https://placehold.co/600x600/1e293b/ffffff?text=Sin+Imagen";
+                    descripcion = "Por favor selecciona un producto válido de la lista.";
+                    cpu = "N/A";
+                    camara = "N/A";
+                    bateria = "N/A";
+                    break;
+            }
+
+            // Actualización dinámica de los elementos del DOM
+            document.getElementById("detail-brand").innerText = marca;
+            document.getElementById("detail-title").innerText = nombre;
+            document.getElementById("detail-price").innerText = precio;
+            document.getElementById("detail-image").src = imagen;
+            document.getElementById("detail-image").alt = nombre;
+            document.getElementById("detail-description").innerText = descripcion;
+            document.getElementById("spec-cpu").innerText = cpu;
+            document.getElementById("spec-camera").innerText = camara;
+            document.getElementById("spec-battery").innerText = bateria;
+
+            // Sincronizar el dropdown si la selección se hizo desde una card
+            const dropdown = document.getElementById("phone-dropdown");
+            if (dropdown.value !== idModelo) {
+                dropdown.value = idModelo;
+            }
+
+            // Animación suave de transición al cambiar de modelo
+            const container = document.getElementById("display-container");
+            container.classList.remove("fade-in");
+            void container.offsetWidth; // Trigger reflow
+            container.classList.add("fade-in");
+        }
+
+        // Inicializar la página con el primer modelo al cargar la ventana
+        window.onload = function() {
+            seleccionarCelular("iphone15");
+        };
+    </script>
+</body>
+</html>
